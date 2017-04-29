@@ -1,31 +1,47 @@
-/**
- * Created by KNYordanov on 29.4.2017 г..
- */
-var gmaps = require('google-maps');
-var app = express();
-var async = require('async');
-var io;
+const express = require('express');
+const path = require('path');
+const ranker = require('./lib/ranker.js');
 
-app.get('/', function (req, res) {
-    res.write('<html>\n<head>\n<style>\n')
-    res.write('#map { height: 400px; width: 100%;}\n')
-    res.write('</style>\n</head>\n')
-    res.write('<body>\n<div id="map"></div>\n')
-    res.write('<script>\n')
+
+const app = express();
+
+
+app.use(express.static(path.join(__dirname, 'public')));
+
+
+app.get('/', function (req, res, next) {
+    ranker.rank(function(err, ranks) {
+        if (err) {
+            next(err);
+            return;
+        }
+        var highest = ranks.reduce(function(prev, ele) {
+            return ele.rank > prev.rank ? ele : prev;
+        }, {'rank': 0});
+        console.log('JJJJJJ');
+        console.log(ranks);
+        console.log(highest);
+
+        res.send('<html>' +
+            '<head>' +
+            '<style>' +
+            '#map { height: 400px; width: 100%;}' +
+            '</style>' +
+            '</head>' +
+            '<body><h3>My Google Maps Demo</h3>' +
+            '<div id="map"></div>' +
+            '<script>' +
+            'var ranks = ' + JSON.stringify(ranks) + ';' +
+            'var highest = ' + JSON.stringify(highest) + ';' +
+            '</script>' +
+            '<script async defer ' +
+            'src="/assets/javascript/maps.js"></script>' +
+            '<script async defer ' +
+            'src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQZ-jlREcmgiolyPb8qwIKH296-vwdNYI&callback=initMap">' +
+            '</script>' +
+            '</div>');
+    });
 });
 
+
 app.listen(3000);
-
-var req = request('https://maps.googleapis.com/maps/api/js?key=AIzaSyCQZ-jlREcmgiolyPb8qwIKH296-vwdNYI&callback=initMap')
-
-function initMap() {
-  var geoLoc = {lat: , lng: 131.044};
-  var map = new gmaps.Map(document.getElementById('map'), {
-    zoom: 4,
-    center: uluru
-  });
-  var marker = new gmaps.Marker({
-    position: geoLoc,
-    map: map
-  });
-}
