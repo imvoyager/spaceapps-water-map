@@ -14,8 +14,19 @@ app.get('/', homepage);
 app.post('/', homepage);
 
 function homepage (req, res, next) {
-  groundwetness.PND();
-    ranker.rank(function(err, ranks) {
+    groundwetness.PND();
+    var highBound;
+    var lowBound;
+    if (req.query.lowLat && req.query.lowLon && req.query.highLat && req.query.highLon) {
+        highBound = {'lon': Number(req.query.highLon),
+            'lat': Number(req.query.highLat)};
+        lowBound = {'lon': Number(req.query.lowLon),
+            'lat': Number(req.query.lowLat)};
+    } else {
+        highBound = {'lon': 180, 'lat': 90};
+        lowBound = {'lon': -180, 'lat': -90};
+    }
+    ranker.rank(highBound, lowBound, function(err, ranks) {
         if (err) {
             next(err);
             return;
@@ -31,10 +42,10 @@ function homepage (req, res, next) {
         res.send('<html>' +
             '<head>' +
             '<style>' +
-            '#map { height: 400px; width: 100%;}' +
+            '#map { height: 80%; width: 100%;}' +
             '</style>' +
             '</head>' +
-            '<body><h3>My Google Maps Demo</h3>' +
+            '<body><h3>When to seed the rain cloud</h3>' +
             '<div id="map"></div>' +
             '<script>' +
             'var ranks = ' + JSON.stringify(ranks) + ';' +
@@ -45,9 +56,7 @@ function homepage (req, res, next) {
             '<script async defer ' +
             'src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQZ-jlREcmgiolyPb8qwIKH296-vwdNYI&callback=initMap">' +
             '</script>' +
-            '<form method="post" action="/">' +
-            '<input type="submit" value="Run again"/>' +
-            '</form>' +
+            '<input type="submit" value="Run again" onclick="location.href=\'/\';"/>' +
             '</div>');
     });
 }
