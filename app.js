@@ -3,9 +3,9 @@ const path = require('path');
 const ranker = require('./lib/ranker.js');
 const PORT = 3000;
 
-
 const app = express();
 
+var groundwetness = require('./lib/ground_wetness.js');
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -14,6 +14,7 @@ app.get('/', homepage);
 app.post('/', homepage);
 
 function homepage (req, res, next) {
+  groundwetness.PND();
     ranker.rank(function(err, ranks) {
         if (err) {
             next(err);

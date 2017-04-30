@@ -1,7 +1,20 @@
 function initMap() {
+  var mapStyle = [{
+    'stylers': [{'visibility': 'off'}]
+  }, {
+    'featureType': 'landscape',
+    'elementType': 'geometry',
+    'stylers': [{'visibility': 'on'}, {'color': '#ff0000'}]
+  }, {
+    'featureType': 'water',
+    'elementType': 'geometry',
+    'stylers': [{'visibility': 'on'}, {'color': '#0000ff'}]
+  }];
+
     var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 4,
-        center: {lat: ranks[0].loc.lat, lng: ranks[0].loc.lon}
+        center: {lat: ranks[0].loc.lat, lng: ranks[0].loc.lon},
+        styles: mapStyle
     });
     for (var i = 0; i < ranks.length; i++) {
         (function(i) {
@@ -14,6 +27,13 @@ function initMap() {
                 icon: icon,
                 map: map
             });
+
+            
+
+            }
+            }
+            }]
+
             marker.addListener('click', function() {
                 infoWindow.open(map, marker);
             });
