@@ -33,7 +33,7 @@ function homepage (req, res, next) {
         }
         var highest = ranks.reduce(function(prev, ele) {
             return ele.rank > prev.rank ? ele : prev;
-        }, {'rank': 0});
+        }, {'rank': Number.NEGATIVE_INFINITY});
         var highestIndex = ranks.indexOf(highest);
         console.log('JJJJJJ');
         console.log(ranks);
