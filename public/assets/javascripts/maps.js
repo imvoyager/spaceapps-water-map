@@ -16,7 +16,8 @@ function initMap() {
     var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 4,
         center: {lat: ranks[0].loc.lat, lng: ranks[0].loc.lon},
-        styles: mapStyle
+        styles: mapStyle,
+        disableDoubleClickZoom: true
     });
     for (var i = 0; i < ranks.length; i++) {
         (function(i) {
@@ -35,23 +36,29 @@ function initMap() {
             });
         })(i);
     }
-    map.addListener('click', function(e){
+    map.addListener('dblclick', function(e){
         positionZone(e.latLng, map);
         console.log('Clicked!');
     });
 
     map.addListener('rightclick',function(event){showContextMenu(event.latLng);});
-
+    initControls();
 }
+
+function initControls(){
+    document.getElementById("clear").onclick = clear;
+    document.getElementById("submit").onclick = submit;
+}
+
 function positionZone(latLng, map){
     if (circle != undefined){
         circle.setMap(null);
     }
     circle = new google.maps.Circle({
-        strokeColor: '#FF0000',
+        strokeColor: '#000000',
         strokeOpacity: 0.5,
         strokeWeight: 2,
-        fillColor: '#FF0000',
+        fillColor: '#9adbff',
         fillOpacity: 0.35,
         map: map,
         center: latLng,
@@ -59,6 +66,22 @@ function positionZone(latLng, map){
         editable: true,
         draggable: true
     });
+}
+
+function clear() {
+    console.log('Clearing!');
+    if (circle != undefined){
+        circle.setMap(null);
+    }
+}
+
+function submit() {
+    var ne = circle.getBounds().getNorthEast();
+    var sw = circle.getBounds().getSouthWest();
+    console.log("NE: " + ne + " SW " + sw);
+    var url = "/?highLon=" + ne.lng() +"&lowLon=" + sw.lng() + "&highLat=" + ne.lat() + "&lowLat=" + sw.lat();
+    console.log(url);
+    location.href= url;
 }
 
 
@@ -111,4 +134,4 @@ function setMenuXY(caurrentLatLng){
 
     $('.contextmenu').css('left',x  );
     $('.contextmenu').css('top',y );
-};
+}

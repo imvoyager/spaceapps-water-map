@@ -60,7 +60,8 @@ function homepage (req, res, next) {
             'src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQZ-jlREcmgiolyPb8qwIKH296-vwdNYI&callback=initMap">' +
             '</script>' +
             '<input type="submit" value="Run again" onclick="location.href=\'/\';"/>' +
-            '<button onclick="clear();" type="button">Clear</button>' +
+            '<input id="submit" type="submit" value="Submit"/>' +
+            '<input id="clear" type="button" value="Clear" onclick="clear();" />' +
             '</div>');
     });
 }
