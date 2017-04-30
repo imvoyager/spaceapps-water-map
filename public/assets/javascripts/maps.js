@@ -28,12 +28,6 @@ function initMap() {
                 map: map
             });
 
-            
-
-            }
-            }
-            }]
-
             marker.addListener('click', function() {
                 infoWindow.open(map, marker);
             });
