@@ -18,6 +18,7 @@ app.get('/', function (req, res, next) {
         var highest = ranks.reduce(function(prev, ele) {
             return ele.rank > prev.rank ? ele : prev;
         }, {'rank': 0});
+        var highestIndex = ranks.indexOf(highest);
         console.log('JJJJJJ');
         console.log(ranks);
         console.log(highest);
@@ -32,10 +33,10 @@ app.get('/', function (req, res, next) {
             '<div id="map"></div>' +
             '<script>' +
             'var ranks = ' + JSON.stringify(ranks) + ';' +
-            'var highest = ' + JSON.stringify(highest) + ';' +
+            'var highestIndex = ' + JSON.stringify(highestIndex) + ';' +
             '</script>' +
             '<script async defer ' +
-            'src="/assets/javascript/maps.js"></script>' +
+            'src="/assets/javascripts/maps.js"></script>' +
             '<script async defer ' +
             'src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQZ-jlREcmgiolyPb8qwIKH296-vwdNYI&callback=initMap">' +
             '</script>' +
