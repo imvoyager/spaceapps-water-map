@@ -14,7 +14,6 @@ app.get('/', homepage);
 app.post('/', homepage);
 
 function homepage (req, res, next) {
-    groundwetness.PND();
     var highBound;
     var lowBound;
     if (req.query.lowLat && req.query.lowLon && req.query.highLat && req.query.highLon) {
