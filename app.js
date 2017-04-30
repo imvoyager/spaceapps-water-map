@@ -32,7 +32,7 @@ function homepage (req, res, next) {
         }
         var highest = ranks.reduce(function(prev, ele) {
             return ele.rank > prev.rank ? ele : prev;
-        }, {'rank': 0});
+        }, {'rank': Number.NEGATIVE_INFINITY});
         var highestIndex = ranks.indexOf(highest);
         console.log('JJJJJJ');
         console.log(ranks);
@@ -43,6 +43,9 @@ function homepage (req, res, next) {
             '<style>' +
             '#map { height: 80%; width: 100%;}' +
             '</style>' +
+            '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>' +
+            '<script src="/assets/javascripts/control.js"></script>' +
+            '<link rel="stylesheet" type="text/css" href="assets/css/menu.css">' +
             '</head>' +
             '<body><h3>When to seed the rain cloud</h3>' +
             '<div id="map"></div>' +
@@ -56,6 +59,8 @@ function homepage (req, res, next) {
             'src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQZ-jlREcmgiolyPb8qwIKH296-vwdNYI&callback=initMap">' +
             '</script>' +
             '<input type="submit" value="Run again" onclick="location.href=\'/\';"/>' +
+            '<input id="submit" type="submit" value="Submit"/>' +
+            '<input id="clear" type="button" value="Clear" onclick="clear();" />' +
             '</div>');
     });
 }
