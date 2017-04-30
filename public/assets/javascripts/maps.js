@@ -1,4 +1,5 @@
 var circle = undefined;
+const RADIUS = 50000;
 
 function initMap() {
   var mapStyle = [{
@@ -6,11 +7,11 @@ function initMap() {
   }, {
     'featureType': 'landscape',
     'elementType': 'geometry',
-    'stylers': [{'visibility': 'on'}, {'color': '#ff0000'}]
+    'stylers': [{'visibility': 'on'}, {'color': '#20ff20'}]
   }, {
     'featureType': 'water',
     'elementType': 'geometry',
-    'stylers': [{'visibility': 'on'}, {'color': '#0000ff'}]
+    'stylers': [{'visibility': 'on'}, {'color': '#b4d9ff'}]
   }];
 
     var map = new google.maps.Map(document.getElementById('map'), {
@@ -62,7 +63,7 @@ function positionZone(latLng, map){
         fillOpacity: 0.35,
         map: map,
         center: latLng,
-        radius: 20000,
+        radius: RADIUS,
         editable: true,
         draggable: true
     });
