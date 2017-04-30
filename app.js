@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const ranker = require('./lib/ranker.js');
+const PORT = 3000;
 
 
 const app = express();
@@ -9,7 +10,10 @@ const app = express();
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-app.get('/', function (req, res, next) {
+app.get('/', homepage);
+app.post('/', homepage);
+
+function homepage (req, res, next) {
     ranker.rank(function(err, ranks) {
         if (err) {
             next(err);
@@ -40,9 +44,12 @@ app.get('/', function (req, res, next) {
             '<script async defer ' +
             'src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQZ-jlREcmgiolyPb8qwIKH296-vwdNYI&callback=initMap">' +
             '</script>' +
+            '<form method="post" action="/">' +
+            '<input type="submit" value="Run again"/>' +
+            '</form>' +
             '</div>');
     });
-});
+}
 
 
-app.listen(3000);
+app.listen(PORT);
